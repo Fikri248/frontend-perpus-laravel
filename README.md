@@ -1,68 +1,158 @@
-# CodeIgniter 4 Application Starter
+# Library Management System Frontend
 
-## What is CodeIgniter?
+Frontend aplikasi perpustakaan berbasis CodeIgniter 4 yang menyediakan UI untuk mengelola data buku, peminjaman, pengembalian, dan pencarian dengan berbagai filter. Proyek ini dikembangkan sebagai frontend dari aplikasi backend Laravel pada tugas UTS Integrasi Aplikasi Enterprise.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Fitur Utama
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- **Manajemen Buku**: Interface lengkap untuk operasi CRUD data buku
+- **Peminjaman & Pengembalian**: Sistem UI untuk pencatatan peminjaman dan pengembalian buku
+- **Pencarian Real-time**: Pencarian buku dengan debounce untuk performa optimal
+- **Filter & Sorting**: Custom dropdown filter berdasarkan kategori dan status
+- **Pagination**: Navigasi halaman dengan desain modern dan responsif
+- **Toast Notifications**: Feedback visual real-time untuk setiap user action
+- **Glassmorphism UI**: Desain modern dengan backdrop blur dan gradient animations
+- **Responsive Design**: Tampilan optimal di desktop, tablet, dan mobile
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Teknologi
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+Proyek ini dibangun menggunakan teknologi berikut:
 
-## Installation & updates
+- **CodeIgniter 4** - PHP Framework
+- **CURLRequest** - HTTP client untuk API communication
+- **Bootstrap 5** - CSS framework untuk navbar dan modal
+- **Vanilla JavaScript** - Interactive components dan AJAX handling
+- **CSS3** - Custom styling dengan glassmorphism effect
+- **SVG Icons** - Inline icons untuk toast notifications
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+## Prasyarat
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+Sebelum memulai instalasi, pastikan sistem Anda memiliki:
 
-## Setup
+- PHP >= 8.0
+- Composer
+- Laravel Backend API (running di port 8000)
+- Web browser
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+## Instalasi
 
-## Important Change with index.php
+Ikuti langkah-langkah berikut untuk menginstal dan menjalankan proyek:
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+### 1. Clone Repository
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+```bash
+git clone https://github.com/user/project-frontend.git
+cd project-frontend
+```
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### 2. Install Dependencies
 
-## Repository Management
+```bash
+composer install
+```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### 3. Konfigurasi Environment
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+Salin file konfigurasi environment:
 
-## Server Requirements
+```bash
+cp env .env
+```
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+Sesuaikan konfigurasi di file `.env`:
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+```env
+CI_ENVIRONMENT = development
+app.baseURL = 'http://localhost:8082/'
+API_BASE_URL = 'http://127.0.0.1:8000/api'
+```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
+### 4. Pastikan Backend API Berjalan
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+Sebelum menjalankan frontend, pastikan Laravel backend sudah running:
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+```bash
+# Di terminal terpisah, jalankan Laravel backend
+cd ../project-backend
+php artisan serve
+```
+
+### 5. Jalankan Development Server
+
+```bash
+php spark serve --port=8082
+```
+
+### 6. Akses Aplikasi
+
+Buka browser dan akses aplikasi di:
+
+```
+http://localhost:8082
+```
+
+### Daftar Routes
+
+| Metode | Route | Controller | Deskripsi |
+|--------|-------|------------|-----------|
+| GET | `/` | Books::index | Halaman utama - daftar buku |
+| GET | `/books` | Books::index | Daftar buku dengan filter |
+| GET | `/books/create` | Books::create | Form tambah buku baru |
+| POST | `/books` | Books::store | Proses simpan buku baru |
+| GET | `/books/{id}/edit` | Books::edit | Form edit buku |
+| POST | `/books/{id}` | Books::update | Proses update buku |
+| GET | `/books/{id}` | Books::show | Detail buku |
+| GET | `/books/{id}/delete` | Books::delete | Proses hapus buku |
+| POST | `/books/{id}/borrow` | Books::borrow | Proses peminjaman buku |
+| POST | `/books/{id}/return` | Books::return | Proses pengembalian buku |
+| GET | `/api-front/books` | Books::listingAjax | AJAX endpoint untuk listing |
+
+
+## Struktur Direktori
+
+Berikut adalah struktur direktori penting dalam proyek:
+
+```
+app/
+├── Config/
+│   └── Routes.php              # Konfigurasi routing
+├── Controllers/
+│   └── Books.php               # Controller utama untuk books
+└── Views/
+    ├── layout.php              # Base layout template
+    ├── navbar.php              # Navigation component
+    ├── footer.php              # Footer dengan toast container
+    └── books/
+        ├── index.php           # List page dengan filter & table
+        ├── form.php            # Form create/edit universal
+        └── show.php            # Detail page buku
+public/
+└── assets/
+    ├── css/
+    │   └── app.css             # Main stylesheet dengan glassmorphism
+    └── js/
+        └── toast.js            # Custom toast notification library
+.env                            # Environment configuration
+```
+
+## Pengembangan
+
+### Environment Modes
+
+Untuk development, set environment di `.env`:
+
+```env
+CI_ENVIRONMENT = development
+```
+
+Untuk production, ubah ke:
+
+```env
+CI_ENVIRONMENT = production
+```
+
+## Kontributor
+
+Proyek ini dikembangkan untuk keperluan akademik UTS Integrasi Aplikasi Enterprise.
+
+**Developer:**
+- Mohamad Fikri Isfahani (1204230031)
