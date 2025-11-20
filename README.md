@@ -118,13 +118,13 @@ app/
 ├── Controllers/
 │   └── Books.php               # Controller utama untuk books
 └── Views/
-    ├── layout.php              # Base layout template
-    ├── navbar.php              # Navigation component
-    ├── footer.php              # Footer dengan toast container
-    └── books/
-        ├── index.php           # List page dengan filter & table
-        ├── form.php            # Form create/edit universal
-        └── show.php            # Detail page buku
+    ├── books/
+    │   ├── form.php            # Form create/edit universal
+    │   └── index.php           # List page dengan filter & table
+    └── partials/
+        ├── footer.php          # Footer dengan toast container
+        ├── navbar.php          # Navigation component
+        └── layout.php          # Base layout template
 public/
 └── assets/
     ├── css/
